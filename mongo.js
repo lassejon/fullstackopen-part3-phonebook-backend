@@ -16,10 +16,12 @@ const Person = mongoose.model('Person', personSchema)
 
 if (process.argv.length < 4) {
     console.log("phonebook:")
-    Person.find({ important: true }).then(result => {
-        result.forEach(p => {
-            console.log(`${p.name} ${p.number}`)
-        })
+    Person
+        .find({ important: true })
+        .then(result => {
+            result.forEach(p => {
+                console.log(`${p.name} ${p.number}`)
+            })
         mongoose.connection.close()
     })
 } else {
