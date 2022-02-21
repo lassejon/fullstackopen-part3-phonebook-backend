@@ -73,6 +73,10 @@ app.post('/api/persons',
         number: body.number,
     })
 
+      if (Person.exists(person)) {
+          console.log("exists")
+      }
+
     person.save()
       .then(savedPerson => {
         response.json(savedPerson)
@@ -84,6 +88,7 @@ app.post('/api/persons',
 app.put('/api/persons/:id',
   (request, response, next) => {
     const { name, number } = request.body
+      console.log(request.params.id, name, number)
 
     Person.findByIdAndUpdate(
       request.params.id,

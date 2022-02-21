@@ -16,9 +16,27 @@ const personSchema = new mongoose.Schema({
   name: {
     type: String,
     minLength: 3,
-    required: true
+    required: true,
+    validate: {
+      validator: async function (v) {
+        const count = await PersonModel.countDocuments({name: v})
+        return !count
+      },
+      message: `Person already exists`
+    }
   },
-  number: String,
+  number: {
+    type: String,
+    minLength: 8,
+    validate: {
+      validator: function(v) {
+        const reg = /^[0-9]{8,}$|^[0-9]{2,3}(-)[0-9]{5,}$/
+
+        return reg.test(v)
+      },
+      message: 'Does not match requirements: (12345678) or more characters, (000-12345) or (00-12345)'
+    }
+  }
 })
 
 personSchema.set('toJSON', {
@@ -28,5 +46,6 @@ personSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
+const PersonModel = mongoose.model('Person', personSchema)
 
-module.exports = mongoose.model('Person', personSchema)
+module.exports = PersonModel
