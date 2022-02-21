@@ -20,6 +20,7 @@ const personSchema = new mongoose.Schema({
     validate: {
       validator: async function (v) {
         const count = await PersonModel.countDocuments({name: v})
+        console.log("why")
         return !count
       },
       message: `Person already exists`
