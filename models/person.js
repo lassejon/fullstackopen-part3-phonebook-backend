@@ -17,14 +17,7 @@ const personSchema = new mongoose.Schema({
     type: String,
     minLength: 3,
     required: true,
-    validate: {
-      validator: async function (v) {
-        const count = await PersonModel.countDocuments({name: v})
-        console.log("why")
-        return !count
-      },
-      message: `Person already exists`
-    }
+    unique: true
   },
   number: {
     type: String,
